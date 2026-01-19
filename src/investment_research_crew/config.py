@@ -21,6 +21,9 @@ class Settings(BaseSettings):
         extra="ignore",  # <-- ADD THIS
     )
 
+    docker_url_alias: str = "DOCKER_AI_API_URL"
+    docker_url: str = "http://localhost:12434/engines/v1"
+
     llm_provider: str = Field(default="openai", alias="LLM_PROVIDER")
 
     open_ai_key: str = Field(default="", alias="OPENAI_API_KEY")
@@ -28,11 +31,17 @@ class Settings(BaseSettings):
     open_ai_model: str = Field(default="gpt-4o-mini", alias="OPENAI_MODEL")
 
     docker_ai_key: str = Field(default="", alias="DOCKER_AI_API_KEY")
-    docker_ai_url: str = Field(default="http://localhost:12434/engines/v1", alias="DOCKER_AI_API_URL")
+    docker_ai_url: str = Field(default=docker_url, alias=docker_url_alias)
     docker_ai_model: str = Field(default="ai/gpt-oss", alias="DOCKER_AI_MODEL")
 
 
 def load_settings() -> Settings:
+    """
+    Docstring for load_settings
+
+    :return: Description
+    :rtype: Settings
+    """
     settings = Settings()
     # os.environ["OPENAI_BASE_URL"] = settings.open_ai_url
     # os.environ["OPENAI_API_KEY"] = settings.open_ai_key

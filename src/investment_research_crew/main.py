@@ -3,10 +3,13 @@ Docstring for src.investment_research_crew.main
 """
 
 from investment_research_crew.config import load_settings
-from investment_research_crew.crews.content_crew import content_crew
+from investment_research_crew.crews.content_crews import ContentCrew
 
 
 def run() -> None:
+    """
+    Docstring for run
+    """
     print("✅ investment-research-crew is running!")
 
     settings = load_settings()  # <-- create instance
@@ -17,8 +20,8 @@ def run() -> None:
     print(f"Docker Model: {settings.docker_ai_model}")
 
     # If you want to show key presence (without leaking it)
-    print(f"Docker Key Present: {bool(settings.docker_ai_key.strip())}")
-    crew = content_crew().crew
+    print(f"Docker Key Present: {bool(settings.docker_ai_key)}")
+    crew = ContentCrew().crew
     result = crew.kickoff(inputs={"topic": "Artificial Intelligence"})
     print(result)
 
