@@ -6,12 +6,19 @@ readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "Nihar Malali", email = "blitznihar@gmail.com"}]
 classifiers = [
-    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-requires-python = ">=3.14"
-dependencies = []
+requires-python = ">=3.12"
+dependencies = [
+    "crewai>=1.8.1",
+    "crewai-tools>=1.8.1",
+    "langchain-community>=0.4.1",
+    "pydantic>=2.11.10",
+    "pydantic-settings>=2.10.1",
+    "python-dotenv>=1.1.1",
+]
 
 [dependency-groups]
 dev = [
@@ -23,8 +30,28 @@ dev = [
 
 
 [tool.ruff]
-line-length = 100
-target-version = "py311"
+line-length = 120
+target-version = "py312"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.uv.workspace]
+members = [
+    "crewai_tools",
+    "langchain_community",
+]
+
+[project.scripts]
+investment-research-crew = "investment_research_crew.main:run"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

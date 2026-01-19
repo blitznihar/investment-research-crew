@@ -1,5 +1,9 @@
-import pytest
+"""Smoke testing for the main code
+This module contains basic smoke tests to ensure that the testing framework is set up correctly
+and that core functionalities are working as expected."""
+
 import sys
+import pytest
 
 
 def test_smoke_basic():
