@@ -5,6 +5,7 @@ Uses Pydantic for validation.
 
 from __future__ import annotations
 
+import os
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -13,10 +14,11 @@ class Settings(BaseSettings):
     """
     Loads configuration from environment variables and .env file.
     """
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore",   # <-- ADD THIS
+        extra="ignore",  # <-- ADD THIS
     )
 
     llm_provider: str = Field(default="openai", alias="LLM_PROVIDER")
@@ -32,6 +34,14 @@ class Settings(BaseSettings):
 
 def load_settings() -> Settings:
     settings = Settings()
+    # os.environ["OPENAI_BASE_URL"] = settings.open_ai_url
+    # os.environ["OPENAI_API_KEY"] = settings.open_ai_key
+    # os.environ["OPENAI_MODEL_NAME"] = settings.open_ai_model
+
+    os.environ["OPENAI_BASE_URL"] = settings.docker_ai_url
+    os.environ["OPENAI_API_KEY"] = settings.docker_ai_key
+    os.environ["OPENAI_MODEL_NAME"] = settings.docker_ai_model
+    os.environ["OPENAI_TRACING_ENABLED"] = "false"
 
     provider = (settings.llm_provider or "").strip().lower()
 
