@@ -55,7 +55,7 @@ jobs:
       # Update the module path if your package name differs.
       - name: Pylint
         run: |
-          uv run pylint src
+          uv run pylint src/
 
       - name: Pytest
         run: uv run pytest --cov --cov-branch --cov-report=xml

@@ -13,10 +13,11 @@ class Settings(BaseSettings):
     """
     Loads configuration from environment variables and .env file.
     """
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore",   # <-- ADD THIS
+        extra="ignore",  # <-- ADD THIS
     )
 
     llm_provider: str = Field(default="openai", alias="LLM_PROVIDER")
