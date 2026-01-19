@@ -34,6 +34,11 @@ class Settings(BaseSettings):
     docker_ai_url: str = Field(default=docker_url, alias=docker_url_alias)
     docker_ai_model: str = Field(default="ai/gpt-oss", alias="DOCKER_AI_MODEL")
 
+    # API Settings
+    host: str = Field(default="0.0.0.0", alias="API_HOST")
+    port: int = Field(default=8000, alias="API_PORT")
+    reload: bool = Field(default=True, alias="API_RELOAD")
+
 
 def load_settings() -> Settings:
     """
@@ -51,6 +56,11 @@ def load_settings() -> Settings:
     os.environ["OPENAI_API_KEY"] = settings.docker_ai_key
     os.environ["OPENAI_MODEL_NAME"] = settings.docker_ai_model
     os.environ["OPENAI_TRACING_ENABLED"] = "false"
+
+    # API Settings
+    #     host = settings.host
+    # port = settings.port
+    # reload = settings.reload
 
     provider = (settings.llm_provider or "").strip().lower()
 

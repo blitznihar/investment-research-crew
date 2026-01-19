@@ -2,28 +2,34 @@
 Docstring for src.investment_research_crew.main
 """
 
+import uvicorn
+
 from investment_research_crew.config import load_settings
-from investment_research_crew.crews.content_crews import ContentCrew
 
 
 def run() -> None:
     """
-    Docstring for run
+    CLI entrypoint: Start FastAPI server.
+    `uv run investment-research-crew` will start the API.
     """
-    print("✅ investment-research-crew is running!")
+    settings = load_settings()
 
-    settings = load_settings()  # <-- create instance
+    host = settings.host
+    port = settings.port
+    reload = settings.reload
 
-    # Print a safe subset (don’t print full keys)
+    print("✅ Starting Investment Research Crew API...")
     print(f"LLM Provider: {settings.llm_provider}")
     print(f"Docker URL: {settings.docker_ai_url}")
     print(f"Docker Model: {settings.docker_ai_model}")
+    print(f"API: http://{host}:{port}")
 
-    # If you want to show key presence (without leaking it)
-    print(f"Docker Key Present: {bool(settings.docker_ai_key)}")
-    crew = ContentCrew().crew
-    result = crew.kickoff(inputs={"topic": "Artificial Intelligence"})
-    print(result)
+    uvicorn.run(
+        "investment_research_crew.api:app",
+        host=host,
+        port=port,
+        reload=reload,
+    )
 
 
 if __name__ == "__main__":
