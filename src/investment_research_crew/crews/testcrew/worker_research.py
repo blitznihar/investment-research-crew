@@ -23,7 +23,7 @@ def main():
     def handler(ch, method, properties, body: bytes):
         """
         Docstring for handler
-        
+
         :param ch: Description
         :param method: Description
         :param properties: Description

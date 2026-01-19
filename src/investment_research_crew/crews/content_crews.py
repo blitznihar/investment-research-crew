@@ -17,7 +17,7 @@ class ContentCrew:
     def __init__(self) -> None:
         """
         Docstring for __init__
-        
+
         :param self: Description
         """
         self.content_agents = ContentAgents()

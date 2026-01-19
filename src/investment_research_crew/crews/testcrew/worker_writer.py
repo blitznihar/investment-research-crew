@@ -1,5 +1,5 @@
-""" Worker for the writer step in the resilient researcher crew.
-"""
+"""Worker for the writer step in the resilient researcher crew."""
+
 import json
 
 from queue_bus import connect, setup_topology, WRITER_Q
@@ -21,7 +21,7 @@ def main():
     def handler(ch, method, properties, body: bytes):
         """
         Docstring for handler
-        
+
         :param ch: Description
         :param method: Description
         :param properties: Description

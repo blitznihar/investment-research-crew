@@ -23,6 +23,7 @@ class StartRequest(BaseModel):
     """
     Docstring for StartRequest
     """
+
     topic: str
     crash_test: bool = False
 
@@ -31,6 +32,7 @@ class StartResponse(BaseModel):
     """
     Docstring for StartResponse
     """
+
     run_id: str
     thread_id: str
 
@@ -88,7 +90,7 @@ def run_crew_support(req: CrewSupportRequest):
 def start_run(req: StartRequest):
     """
     Docstring for start_run
-    
+
     :param req: Description
     :type req: StartRequest
     """
@@ -110,7 +112,7 @@ def start_run(req: StartRequest):
 def get_run_status(run_id: str):
     """
     Docstring for get_run_status
-    
+
     :param run_id: Description
     :type run_id: str
     """
