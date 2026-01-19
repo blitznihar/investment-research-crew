@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/badge/python-3.12%2B-blue)
 ![Last Commit](https://img.shields.io/github/last-commit/blitznihar/investment-research-crew)
 ![License](https://img.shields.io/github/license/blitznihar/investment-research-crew?cacheSeconds=0)
+![CrewAI](https://img.shields.io/badge/CrewAI-000000?style=for-the-badge&logo=ai&logoColor=white)
 
 ## Overview
 
