@@ -23,16 +23,25 @@ class Settings(BaseSettings):
 
     docker_url_alias: str = "DOCKER_AI_API_URL"
     docker_url: str = "http://localhost:12434/engines/v1"
+    lmstudio_url: str = "http://127.0.0.1:1234/v1"
 
     llm_provider: str = Field(default="openai", alias="LLM_PROVIDER")
 
-    open_ai_key: str = Field(default="", alias="OPENAI_API_KEY")
-    open_ai_url: str = Field(default="https://api.openai.com/v1", alias="OPENAI_API_URL")
-    open_ai_model: str = Field(default="gpt-4o-mini", alias="OPENAI_MODEL")
+    open_ai_key: str = Field(default="", alias="OPENAI_AI_API_KEY")
+    open_ai_url: str = Field(default="https://api.openai.com/v1", alias="OPENAI_AI_API_URL")
+    open_ai_model: str = Field(default="gpt-4o-mini", alias="OPENAI_AI_MODEL")
 
     docker_ai_key: str = Field(default="", alias="DOCKER_AI_API_KEY")
     docker_ai_url: str = Field(default=docker_url, alias=docker_url_alias)
-    docker_ai_model: str = Field(default="ai/gpt-oss", alias="DOCKER_AI_MODEL")
+    docker_ai_model: str = Field(default="openai/gpt-oss", alias="DOCKER_AI_MODEL")
+
+    lmstudio_ai_key: str = Field(default="", alias="LMSTUDIO_AI_API_KEY")
+    lmstudio_ai_url: str = Field(default=lmstudio_url, alias="LMSTUDIO_AI_API_URL")
+    lmstudio_ai_model: str = Field(default="openai/gpt-oss", alias="LMSTUDIO_AI_MODEL")
+
+    model_in_use: str = ""
+    key_in_use: str = ""
+    url_in_use: str = ""
 
     # API Settings
     host: str = Field(default="0.0.0.0", alias="API_HOST")
@@ -48,14 +57,6 @@ def load_settings() -> Settings:
     :rtype: Settings
     """
     settings = Settings()
-    # os.environ["OPENAI_BASE_URL"] = settings.open_ai_url
-    # os.environ["OPENAI_API_KEY"] = settings.open_ai_key
-    # os.environ["OPENAI_MODEL_NAME"] = settings.open_ai_model
-
-    os.environ["OPENAI_BASE_URL"] = settings.docker_ai_url
-    os.environ["OPENAI_API_KEY"] = settings.docker_ai_key
-    os.environ["OPENAI_MODEL_NAME"] = settings.docker_ai_model
-    os.environ["OPENAI_TRACING_ENABLED"] = "false"
 
     # API Settings
     #     host = settings.host
@@ -66,13 +67,36 @@ def load_settings() -> Settings:
 
     if provider == "openai":
         if not settings.open_ai_key.strip():
-            raise ValueError("Missing required setting: OPENAI_API_KEY")
+            raise ValueError("Missing required setting: OPENAI_AI_API_KEY")
+        os.environ["OPENAI_BASE_URL"] = settings.open_ai_url
+        os.environ["OPENAI_API_KEY"] = settings.open_ai_key
+        os.environ["OPENAI_MODEL_NAME"] = settings.open_ai_model
+        os.environ["OPENAI_TRACING_ENABLED"] = "true"
+        settings.model_in_use = settings.open_ai_model
+        settings.key_in_use = settings.open_ai_key
+        settings.url_in_use = settings.open_ai_url
     elif provider == "docker":
         # docker key may be optional; enforce if required
-        # if not settings.docker_ai_key.strip():
-        #     raise ValueError("Missing required setting: DOCKER_AI_API_KEY")
-        pass
+        if not settings.docker_ai_key.strip():
+            raise ValueError("Missing required setting: DOCKER_AI_API_KEY")
+        os.environ["OPENAI_BASE_URL"] = settings.docker_ai_url
+        os.environ["OPENAI_API_KEY"] = settings.docker_ai_key
+        os.environ["OPENAI_MODEL_NAME"] = settings.docker_ai_model
+        os.environ["OPENAI_TRACING_ENABLED"] = "false"
+        settings.model_in_use = settings.docker_ai_model
+        settings.key_in_use = settings.docker_ai_key
+        settings.url_in_use = settings.docker_ai_url
+    elif provider == "lmstudio":
+        if not settings.lmstudio_ai_key.strip():
+            raise ValueError("Missing required setting: LMSTUDIO_AI_API_KEY")
+        os.environ["OPENAI_BASE_URL"] = settings.lmstudio_ai_url
+        os.environ["OPENAI_API_KEY"] = settings.lmstudio_ai_key
+        os.environ["OPENAI_MODEL_NAME"] = settings.lmstudio_ai_model
+        os.environ["OPENAI_TRACING_ENABLED"] = "false"
+        settings.model_in_use = settings.lmstudio_ai_model
+        settings.key_in_use = settings.lmstudio_ai_key
+        settings.url_in_use = settings.lmstudio_ai_url
     else:
-        raise ValueError("LLM_PROVIDER must be one of: openai, docker")
+        raise ValueError("LLM_PROVIDER must be one of: openai, docker, lmstudio")
 
     return settings
