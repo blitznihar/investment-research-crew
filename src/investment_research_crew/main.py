@@ -3,6 +3,7 @@ Docstring for src.investment_research_crew.main
 """
 
 from investment_research_crew.config import load_settings
+from investment_research_crew.crews.content_crew import content_crew
 
 
 def run() -> None:
@@ -17,6 +18,9 @@ def run() -> None:
 
     # If you want to show key presence (without leaking it)
     print(f"Docker Key Present: {bool(settings.docker_ai_key.strip())}")
+    crew = content_crew().crew
+    result = crew.kickoff(inputs={"topic": "Artificial Intelligence"})
+    print(result)
 
 
 if __name__ == "__main__":
