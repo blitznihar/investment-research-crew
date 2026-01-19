@@ -3,23 +3,8 @@ Defines agents for content planning, writing, and editing.
 """
 # pylint: disable=too-few-public-methods
 
-from crewai import Agent, LLM
-from investment_research_crew.config import load_settings
-
-
-def get_local_llm() -> LLM:
-    """
-    Docstring for get_local_llm
-
-    :return: Description
-    :rtype: LLM
-    """
-    settings = load_settings()
-    return LLM(
-        model=settings.docker_ai_model,
-        base_url=settings.docker_ai_url,
-        api_key=settings.docker_ai_key,
-    )
+from crewai import Agent
+from investment_research_crew.llm.llm import Llm
 
 
 class ContentAgents:
@@ -36,7 +21,7 @@ class ContentAgents:
         :return: None
         :rtype: None
         """
-        self.llm = get_local_llm()
+        self.llm = Llm().llm
         self.planner = Agent(
             role="Content Planner",
             goal="Plan engaging and factually accurate content on {topic}",
