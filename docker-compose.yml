@@ -1,0 +1,23 @@
+services:
+  investment-research-crew:
+    build: .
+    container_name: investment-research-crew
+    ports:
+      - "8542:8542"
+    environment:
+      # API settings
+      API_HOST: "0.0.0.0"
+      API_PORT: "8542"
+      API_RELOAD: "false"
+
+      # LLM provider settings
+      LLM_PROVIDER: "docker"
+
+      # IMPORTANT: container must use host.docker.internal (not localhost)
+      DOCKER_AI_API_URL: "http://host.docker.internal:12434/engines/v1"
+      DOCKER_AI_API_KEY: "docker"
+
+      # IMPORTANT: LiteLLM needs provider prefix
+      DOCKER_AI_MODEL: "openai/ai/gpt-oss"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
